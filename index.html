@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body >
+   <button id="create-btn" class="fixed bottom-20 right-20 border-2 border-white bg-green-300 w-15 h-15 rounded-full text-white font-extrabold text-2xl">+</button>
+    <div class=" flex justify-center mx-auto border-2 border-white rounded-lg shadow-lg my-30  w-md overlay hidden" id="popup">
+        <form class="flex flex-col my-5">
+            <h1 class="text-center font-bold text-xl mb-5">Add a Blog</h1>
+            <label for="title" class="font-bold mb-2">Title</label>
+            <input type="text" id="title" name="title" class="border-2 border-gray-200 rounded-md mb-2">
+            <label for="content" class="font-bold mb-2">Content</label>
+            <textarea rows="5" cols="25" id="content" placeholder="Write Your blog here!" class="border-gray-200"></textarea>
+            <label for="img" class="mb-2 font-bold">Image here!</label>
+            <input type="file" class="border-2 border-gray-200 rounded-md mb-5">
+            <div>
+                <button class="border-2 border-black w-20 rounded-md" id="save">Save</button>
+                <button class="border-2 border-black w-20 rounded-md">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div id="display-content" class="grid grid-col-2 bg-yellow-500"></div>
+    <script src="script.js"></script>
+</body>
+</html>

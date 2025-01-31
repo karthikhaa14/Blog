@@ -1,27 +1,52 @@
-var create=document.getElementById("create-btn");
-create.addEventListener("click",create_fun);
-let popup=document.getElementById("popup");
-function create_fun(){
-    popup.classList.remove("hidden");
-}
-var parent=document.getElementById("display-content");
-var save_btn=document.getElementById("save");
-save_btn.addEventListener("click",add_content);
-save_btn.addEventListener("click",hide);
-document.getElementById("cancel").addEventListener("click",hide);
-function hide(){
-    popup.classList.add("hidden");
-}
-function add_content(e){
-    e.preventDefault();
-    var title=document.getElementById("title").value;
-    var content=document.getElementById("content").value;
-    var child=document.createElement("h1");
-    child.appendChild(document.createTextNode(title));
-    parent.appendChild(child);
-    var child2=document.createElement("p");
-    child2.appendChild(document.createTextNode(content));
-    parent.appendChild(child2);
-    title.value="";
-    content.value="";
+window.onload = function() {
+    var create = document.getElementById("create-btn");
+    let popup = document.getElementById("popup");
+    var save_btn = document.getElementById("save");
+    
+    // When the "Create" button is clicked, show the popup
+    create.addEventListener("click", create_fun);
+    
+    // Show popup
+    function create_fun() {
+        popup.classList.remove("hidden");
+        console.log("Popup visible: ", !popup.classList.contains("hidden"));
+        
+        // After showing popup, add event listener to save button
+        if (save_btn) {
+            save_btn.addEventListener("click", add_content);
+        }
+    }
+    
+    // When the "Cancel" button is clicked, hide the popup
+    document.getElementById("cancel").addEventListener("click", function () {
+        popup.classList.add("hidden");
+    });
+
+    // Handle the save action
+    var parent = document.getElementById("display-content");
+
+    function add_content(e) {
+        e.preventDefault();
+        
+        // Get title and content values
+        var btitle = document.getElementById("title").value;
+        var bcontent = document.getElementById("content").value;
+        
+        // Create a new blog div and populate it with title and content
+        var div = document.createElement("div");
+        div.className = "text-black bg-yellow-500 p-4 rounded shadow";
+        div.innerHTML = `<h2>${btitle}</h2><p>${bcontent}</p>`;
+        
+        // Append the new blog content to the display content area
+        parent.appendChild(div);
+        
+        // Clear the input fields
+        document.getElementById("title").value = "";
+        document.getElementById("content").value = "";
+        
+        // Hide the popup
+        popup.classList.add("hidden");
+    }
+    
+    console.log("Save button:", save_btn);
 }

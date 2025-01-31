@@ -7,9 +7,11 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
 <body >
-   <button id="create-btn" class="fixed bottom-20 right-20 border-2 border-white bg-green-300 w-15 h-15 rounded-full text-white font-extrabold text-2xl">+</button>
-    <div class=" flex justify-center mx-auto border-2 border-white rounded-lg shadow-lg my-30  w-md overlay hidden" id="popup">
-        <form class="flex flex-col my-5">
+    <div class="bg-yellow-500 text-center text-2xl h-20 py-5">dfaehiaheoi</div>
+    <div id="display-content" class="grid grid-cols-2"></div>
+   <div id="popup" class="bg-black bg-opacity-30 fixed inset-0 w-full hidden flex justify-center z-50">
+    <div class="p-8 border-2 bg-white rounded-lg shadow-xl my-30 opacity-100" >
+        <form class="flex flex-col space-y-4">
             <h1 class="text-center font-bold text-xl mb-5">Add a Blog</h1>
             <label for="title" class="font-bold mb-2">Title</label>
             <input type="text" id="title" name="title" class="border-2 border-gray-200 rounded-md mb-2">
@@ -18,12 +20,13 @@
             <label for="img" class="mb-2 font-bold">Image here!</label>
             <input type="file" class="border-2 border-gray-200 rounded-md mb-5">
             <div>
-                <button class="border-2 border-black w-20 rounded-md" id="save">Save</button>
-                <button class="border-2 border-black w-20 rounded-md">Cancel</button>
+                <button class="border-2 border-black w-20 rounded-md bg-green-700 text-white opacity-100" id="save">Save</button>
+                <button class="border-2 border-black w-20 rounded-md bg-red-800 text-white">Cancel</button>
             </div>
         </form>
-    </div>
-    <div id="display-content" class="grid grid-col-2 bg-yellow-500"></div>
+    </div></div>    
+    <button id="create-btn" class="fixed bottom-20 right-20 border-2 border-white bg-green-700 w-15 h-15 rounded-full text-white font-extrabold text-2xl">+</button>
+    
     <script src="script.js"></script>
 </body>
 </html>

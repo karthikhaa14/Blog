@@ -1,52 +1,91 @@
-window.onload = function() {
-    var create = document.getElementById("create-btn");
-    let popup = document.getElementById("popup");
-    var save_btn = document.getElementById("save");
-    
-    // When the "Create" button is clicked, show the popup
-    create.addEventListener("click", create_fun);
-    
-    // Show popup
-    function create_fun() {
-        popup.classList.remove("hidden");
-        console.log("Popup visible: ", !popup.classList.contains("hidden"));
-        
-        // After showing popup, add event listener to save button
-        if (save_btn) {
-            save_btn.addEventListener("click", add_content);
-        }
+document.addEventListener("DOMContentLoaded", display_content);
+
+var create=document.getElementById("create");
+var form=document.getElementById("form");
+var cancel=document.getElementById("cancel-btn");
+create.addEventListener("click",function(){
+    create.classList.add("hidden");
+    form.classList.remove("hidden");
+})
+
+cancel.addEventListener("click",function(){
+    create.classList.remove("hidden");
+    form.classList.add("hidden");
+})
+var save=document.getElementById("save-btn");
+
+save.addEventListener("click",add_content);
+
+function add_content(e){
+    e.preventDefault();
+    var author=document.getElementById("name").value;
+    var category=document.getElementById("category").value;
+    var content=document.getElementById("content").value;
+    var img=document.getElementById("img");
+    var imgurl='';
+    if(img.files&&img.files[0]){
+        var file=img.files[0];
+        imgurl=URL.createObjectURL(file);
     }
-    
-    // When the "Cancel" button is clicked, hide the popup
-    document.getElementById("cancel").addEventListener("click", function () {
-        popup.classList.add("hidden");
+    console.log(imgurl); 
+    var blogs=JSON.parse(localStorage.getItem("blogs"))||[];
+    blogs.push({author,category,content,imgurl})
+    localStorage.setItem("blogs",JSON.stringify(blogs));
+    display_content();
+    form.classList.add("hidden");
+    create.classList.remove("hidden");
+}
+
+function display_content(){
+    var blogs=JSON.parse(localStorage.getItem("blogs"))||[];
+    var blogcontent='';
+    blogs.forEach((blog,ind) => {
+        blogcontent+=`<div class="border border-gray-400 rounded-md shadow-lg h-auto w-100" data-index=${ind}> 
+        <img src="${blog.imgurl}" alt="Blog Image" class=" w-full h-auto mb-5 p-3">
+        <h2 class="text-center font-extrabold mb-1 text-blue-500 text-xl">${blog.author}</h2>
+        <p class="text-center font-bold mb-3 text-purple-400">${blog.category}</p>
+        <div class="flex justify-around mb-0">
+        <button class="border bg-blue-400 px-3 py-1 rounded-sm edit">Edit</button> 
+        <button class="border bg-red-400 px-3 py-1 rounded-sm delete">Delete</button> 
+        <button class="view"><i class="fa-solid fa-eye"></i></button></div></div>`;
     });
 
-    // Handle the save action
-    var parent = document.getElementById("display-content");
+    document.getElementById("display").innerHTML=blogcontent;
 
-    function add_content(e) {
-        e.preventDefault();
-        
-        // Get title and content values
-        var btitle = document.getElementById("title").value;
-        var bcontent = document.getElementById("content").value;
-        
-        // Create a new blog div and populate it with title and content
-        var div = document.createElement("div");
-        div.className = "text-black bg-yellow-500 p-4 rounded shadow";
-        div.innerHTML = `<h2>${btitle}</h2><p>${bcontent}</p>`;
-        
-        // Append the new blog content to the display content area
-        parent.appendChild(div);
-        
-        // Clear the input fields
-        document.getElementById("title").value = "";
-        document.getElementById("content").value = "";
-        
-        // Hide the popup
-        popup.classList.add("hidden");
-    }
+    var delete_btns=document.querySelectorAll(".delete");
+    delete_btns.forEach((delete_btn)=>{
+        delete_btn.addEventListener("click",function(){
+            var ind=this.getAttribute("data-index");
+            delete_content(ind);
+        });
+    });
+
+    var edit_btns=document.querySelectorAll(".edit");
+    edit_btns.forEach((edit_btn)=>{
+        edit_btn.addEventListener("click",function(){
+            var index=this.getAttribute("data-index");
+            edit_content(index);
+    });
+});
+
+}
+
+function delete_content(index){
+        var blogs=JSON.parse(localStorage.getItem("blogs"))||[];
+        blogs.splice(index,1);
+
+        localStorage.setItem("blogs",JSON.stringify(blogs));
+        display_content();
+}
+
+function edit_content(index){
+    var blogs=JSON.parse(localStorage.getItem("blogs"))||[];
+    var blog=blogs[index];
     
-    console.log("Save button:", save_btn);
+    document.getElementById("name").value=blog.author;
+    document.getElementById("category").value=blog.category;
+    document.getElementById("content").value=blog.content;
+    create.classList.add("hidden");
+    form.classList.remove("hidden");
+    
 }
